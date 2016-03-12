@@ -6,7 +6,7 @@ namespace AdvWorks.Data.EF6
   public partial class AdventureWorksModel : DbContext
   {
     public AdventureWorksModel()
-        : base("AdventureWorks2014Model") {
+        : base("AdventureWorks") {
     }
 
     public virtual DbSet<Department> Departments { get; set; }

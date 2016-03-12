@@ -67,7 +67,7 @@ namespace QueryTests.cs
     }
 
     [TestMethod]
-    public void GetAllDesignersWithContactAsNoTracking() {
+    public void GetAllCustomersWithOrdersAsNoTracking() {
       List<long> times = new List<long>();
    
 
@@ -83,13 +83,13 @@ namespace QueryTests.cs
 
       }
       var analyzer = new TimeAnalyzer(times);
-      Output(times, analyzer, "EF: GetAllDesignersWithContactAsNoTracking");
+      Output(times, analyzer, "EF: GetAllCustomersWithOrdersAsNoTracking");
       Console.WriteLine($"Tracked Objects:{_trackedObjects}");
       Assert.IsTrue(true);
     }
 
     [TestMethod]
-    public void GetAllDesignersWithContactTracking() {
+    public void GetAllCustomersWithOrdersTracking() {
       List<long> times = new List<long>();
        using (var context = new AdventureWorksModel()) {
         for (int i = 0; i < 25; i++) {
@@ -104,7 +104,7 @@ namespace QueryTests.cs
       }
       var analyzer = new TimeAnalyzer(times);
 
-      Output(times, analyzer, "EF: GetAllDesignersWithContactTracking");
+      Output(times, analyzer, "EF: GetAllCustomersWithOrdersTracking");
       Console.WriteLine($"Tracked Objects:{_trackedObjects}");
 
       Assert.IsTrue(true);
