@@ -1,6 +1,5 @@
 namespace DapperDesigners.Data.EF6.Migrations
 {
-  using Dapper.Domain;
   using System.Collections.Generic;
   using System.Data.Entity.Migrations;
   using System.Linq;
@@ -59,7 +58,7 @@ namespace DapperDesigners.Data.EF6.Migrations
           new Product {Description="More Yoga Pants" } }
          }
         );
-      if (context.Designers.SingleOrDefault(d => d.LabelName == "Label0") == null){
+      if (context.Designers.SingleOrDefault(d => d.LabelName == "Label0") == null) {
         context.Configuration.AutoDetectChangesEnabled = false;
         for (int i = 0; i < 30000; i++) {
           context.Designers.Add(

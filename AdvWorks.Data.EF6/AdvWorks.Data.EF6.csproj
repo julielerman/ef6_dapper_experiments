@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F71E8D65-442A-409B-BC03-8FA815172B7B}</ProjectGuid>
+    <ProjectGuid>{D0D7EBAB-0285-4FC3-AB6F-65C64CCE10AC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DapperDesigners.Data.EF6</RootNamespace>
-    <AssemblyName>DapperDesigners.Data.EF6</AssemblyName>
+    <RootNamespace>AdvWorks.Data.EF6</RootNamespace>
+    <AssemblyName>AdvWorks.Data.EF6</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -49,23 +49,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdventureWorksModel.cs" />
     <Compile Include="ContextConfiguration.cs" />
-    <Compile Include="DapperDesignerContext.cs" />
-    <Compile Include="Migrations\201603112048376_init.cs" />
-    <Compile Include="Migrations\201603112048376_init.Designer.cs">
-      <DependentUpon>201603112048376_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201603112048376_init.resx">
-      <DependentUpon>201603112048376_init.cs</DependentUpon>
-    </EmbeddedResource>
+    <ProjectReference Include="..\AdvWorks.Domain\AdvWorks.Domain.csproj">
+      <Project>{ea4d595b-dac5-429b-8f1b-6f2f4fb95360}</Project>
+      <Name>AdvWorks.Domain</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -4,11 +4,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("QueryTests.cs")]
+[assembly: AssemblyTitle("AdvWorks.Data.EF6")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("QueryTests.cs")]
+[assembly: AssemblyProduct("AdvWorks.Data.EF6")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +19,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("b0349eb7-dc7f-4a27-a46d-64fad0635ab7")]
+[assembly: Guid("d0d7ebab-0285-4fc3-ab6f-65c64cce10ac")]
 
 // Version information for an assembly consists of the following four values:
 //

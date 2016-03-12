@@ -72,13 +72,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DapperDesigners.Data.EF6\DapperDesigners.Data.EF6.csproj">
-      <Project>{f71e8d65-442a-409b-bc03-8fa815172b7b}</Project>
-      <Name>DapperDesigners.Data.EF6</Name>
+    <ProjectReference Include="..\AdvWorks.Data.EF6\AdvWorks.Data.EF6.csproj">
+      <Project>{d0d7ebab-0285-4fc3-ab6f-65c64cce10ac}</Project>
+      <Name>AdvWorks.Data.EF6</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Dapper_EF\DapperDesigners.Domain.csproj">
-      <Project>{bb0a3fcf-a7fa-4372-b951-614f36e49236}</Project>
-      <Name>DapperDesigners.Domain</Name>
+    <ProjectReference Include="..\AdvWorks.Domain\AdvWorks.Domain.csproj">
+      <Project>{ea4d595b-dac5-429b-8f1b-6f2f4fb95360}</Project>
+      <Name>AdvWorks.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

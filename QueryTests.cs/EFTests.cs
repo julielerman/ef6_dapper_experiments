@@ -1,4 +1,4 @@
-﻿using DapperDesigners.Data.EF6;
+﻿using AdvWorks.Data.EF6;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
@@ -13,48 +13,47 @@ namespace QueryTests.cs
 
     public EFTests() {
       //warm up EF
-      using (var context = new DapperDesignerContext()) {
-        context.Designers.Find(1);
-        context.Clients.Find(1);
+      using (var context = new AdventureWorksModel()) {
+        context.Customers.FirstOrDefault();
+        context.SalesOrderHeaders.FirstOrDefault();
       }
     }
 
     [TestMethod]
-    public void GetAllDesignersAsNoTracking() {
+    public void GetAllCustomersAsNoTracking() {
       List<long> times = new List<long>();
 
-      using (var context = new DapperDesignerContext()) {
+      using (var context = new AdventureWorksModel()) {
         for (int i = 0; i < 25; i++) {
           _sw.Reset();
           _sw.Start();
-          var designers = context.Designers.AsNoTracking().ToList();
+          var designers = context.Customers.AsNoTracking().ToList();
           _sw.Stop();
           times.Add(_sw.ElapsedMilliseconds);
         }
         Console.WriteLine($"Tracked Object:{context.ChangeTracker.Entries().Count()}");
       }
       var analyzer = new TimeAnalyzer(times);
-      Output(times, analyzer, "EF: GetAllDesigners");
+      Output(times, analyzer, "EF: GetAllCustomersAsNoTracking");
       Assert.IsTrue(true);
     }
 
     [TestMethod]
-    public void GetAllDesignersTracking() {
+    public void GetAllCustomersTracking() {
       List<long> times = new List<long>();
 
-      using (var context = new DapperDesignerContext()) {
+      using (var context = new AdventureWorksModel()) {
         for (int i = 0; i < 25; i++) {
           _sw.Reset();
           _sw.Start();
-            var designers = context.Designers.ToList();
+          var designers = context.Customers.ToList();
           _sw.Stop();
           times.Add(_sw.ElapsedMilliseconds);
         }
         Console.WriteLine($"Tracked Object:{context.ChangeTracker.Entries().Count()}");
-
       }
       var analyzer = new TimeAnalyzer(times);
-      Output(times, analyzer, "EF: GetAllDesigners");
+      Output(times, analyzer, "EF: GetAllCustomersTracking");
       Assert.IsTrue(true);
     }
 

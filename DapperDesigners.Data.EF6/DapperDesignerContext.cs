@@ -1,5 +1,4 @@
-﻿using Dapper.Domain;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 
 namespace DapperDesigners.Data.EF6
 {
