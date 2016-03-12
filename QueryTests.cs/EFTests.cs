@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 
 namespace QueryTests.cs
 {
@@ -46,7 +47,7 @@ namespace QueryTests.cs
         for (int i = 0; i < 25; i++) {
           _sw.Reset();
           _sw.Start();
-            var designers = context.Designers.ToList();
+          var designers = context.Designers.ToList();
           _sw.Stop();
           times.Add(_sw.ElapsedMilliseconds);
         }
@@ -55,6 +56,94 @@ namespace QueryTests.cs
       }
       var analyzer = new TimeAnalyzer(times);
       Output(times, analyzer, "EF: GetAllDesigners");
+      Assert.IsTrue(true);
+    }
+    [TestMethod]
+    public void GetAllDesignersWithContactAsNoTracking() {
+      List<long> times = new List<long>();
+      int trackedObjects;
+
+      using (var context = new DapperDesignerContext()) {
+        for (int i = 0; i < 25; i++) {
+          _sw.Reset();
+          _sw.Start();
+          var designers = context.Designers.Include(d=>d.ContactInfo).AsNoTracking().ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+        }
+        trackedObjects = context.ChangeTracker.Entries().Count();
+
+      }
+      var analyzer = new TimeAnalyzer(times);
+      Output(times, analyzer, "EF: GetAllDesignersWithContactAsNoTracking");
+      Console.WriteLine($"Tracked Objects:{trackedObjects}");
+      Assert.IsTrue(true);
+    }
+
+    [TestMethod]
+    public void GetAllDesignersWithContactTracking() {
+      List<long> times = new List<long>();
+      int trackedObjects;
+      using (var context = new DapperDesignerContext()) {
+        for (int i = 0; i < 25; i++) {
+          _sw.Reset();
+          _sw.Start();
+          var designers = context.Designers.Include(d=>d.ContactInfo).ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+        }
+        trackedObjects = context.ChangeTracker.Entries().Count();
+     
+      }
+      var analyzer = new TimeAnalyzer(times);
+ 
+      Output(times, analyzer, "EF: GetAllDesignersWithContactTracking");
+      Console.WriteLine($"Tracked Objects:{trackedObjects}");
+
+      Assert.IsTrue(true);
+    }
+    [TestMethod]
+    public void GetAllDesignersWithContactsAndClientsAsNoTracking() {
+      List<long> times = new List<long>();
+      int trackedObjects;
+
+      using (var context = new DapperDesignerContext()) {
+        for (int i = 0; i < 25; i++) {
+          _sw.Reset();
+          _sw.Start();
+          var designers = context.Designers.Include(d => d.ContactInfo).Include(d=>d.Clients).AsNoTracking().ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+        }
+        trackedObjects = context.ChangeTracker.Entries().Count();
+
+      }
+      var analyzer = new TimeAnalyzer(times);
+      Output(times, analyzer, "EF: GetAllDesignersWithContactsAndClientsAsNoTracking");
+      Console.WriteLine($"Tracked Objects:{trackedObjects}");
+      Assert.IsTrue(true);
+    }
+
+    [TestMethod]
+    public void GetAllDesignersWithContactsAndClientsTracking() {
+      List<long> times = new List<long>();
+      int trackedObjects;
+      using (var context = new DapperDesignerContext()) {
+        for (int i = 0; i < 25; i++) {
+          _sw.Reset();
+          _sw.Start();
+          var designers = context.Designers.Include(d => d.ContactInfo).Include(d => d.Clients).ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+        }
+        trackedObjects = context.ChangeTracker.Entries().Count();
+
+      }
+      var analyzer = new TimeAnalyzer(times);
+
+      Output(times, analyzer, "EF: GetAllDesignersWithContactsAndClientsTracking");
+      Console.WriteLine($"Tracked Objects:{trackedObjects}");
+
       Assert.IsTrue(true);
     }
 
