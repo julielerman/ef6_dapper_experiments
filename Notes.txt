@@ -1,0 +1,11 @@
+Using EF to create, seed & migrate the database
+
+From Glenn Condron: EF raw sql, slower at materializing results taht don't map to classes in the data model
+From Mike Campbell:
+From Rob Sullivan (datachomp) Full Text search
+
+EF/ORM can at least alleviate the "select *" and "what's a paraemterized query" people.
+
+coding ease?
+performance
+
