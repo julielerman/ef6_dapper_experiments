@@ -25,20 +25,20 @@ namespace QueryTests.cs
     public void GetAllCustomersAsNoTracking() {
       List<long> times = new List<long>();
 
-      using (var context = new AdventureWorksModel()) {
         for (int i = 0; i < 25; i++) {
+        using (var context = new AdventureWorksModel()) {
           _sw.Reset();
           _sw.Start();
           var customers = context.Customers.AsNoTracking().ToList();
           _sw.Stop();
           times.Add(_sw.ElapsedMilliseconds);
-        }
-        _trackedObjects = context.ChangeTracker.Entries().Count();
 
+          _trackedObjects = context.ChangeTracker.Entries().Count();
+        }
       }
       var analyzer = new TimeAnalyzer(times);
       Output(times, analyzer, "EF: GetAllCustomersAsNoTracking");
-      Console.WriteLine($"Tracked Objects:{_trackedObjects}");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
 
       Assert.IsTrue(true);
     }
@@ -47,21 +47,22 @@ namespace QueryTests.cs
     public void GetAllCustomersTracking() {
       List<long> times = new List<long>();
 
-      using (var context = new AdventureWorksModel()) {
-        for (int i = 0; i < 25; i++) {
+         for (int i = 0; i < 25; i++) {
+        using (var context = new AdventureWorksModel()) {
+
           _sw.Reset();
           _sw.Start();
           var customers = context.Customers.ToList();
           _sw.Stop();
           times.Add(_sw.ElapsedMilliseconds);
-        }
-        _trackedObjects = context.ChangeTracker.Entries().Count();
 
+          _trackedObjects = context.ChangeTracker.Entries().Count();
+        }
       }
       var analyzer = new TimeAnalyzer(times);
 
       Output(times, analyzer, "EF: GetAllCustomersTracking");
-      Console.WriteLine($"Tracked Objects:{_trackedObjects}");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
 
       Assert.IsTrue(true);
     }
@@ -71,41 +72,46 @@ namespace QueryTests.cs
       List<long> times = new List<long>();
    
 
-      using (var context = new AdventureWorksModel()) {
-        for (int i = 0; i < 25; i++) {
+         for (int i = 0; i < 25; i++) {
+        using (var context = new AdventureWorksModel()) {
+
           _sw.Reset();
           _sw.Start();
           var designers = context.Customers.Include(d => d.SalesOrderHeaders).AsNoTracking().ToList();
           _sw.Stop();
           times.Add(_sw.ElapsedMilliseconds);
-        }
-        _trackedObjects = context.ChangeTracker.Entries().Count();
 
+          _trackedObjects = context.ChangeTracker.Entries().Count();
+        }
       }
       var analyzer = new TimeAnalyzer(times);
       Output(times, analyzer, "EF: GetAllCustomersWithOrdersAsNoTracking");
-      Console.WriteLine($"Tracked Objects:{_trackedObjects}");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
       Assert.IsTrue(true);
     }
 
     [TestMethod]
     public void GetAllCustomersWithOrdersTracking() {
       List<long> times = new List<long>();
-       using (var context = new AdventureWorksModel()) {
+      
+        //warmup:
+
         for (int i = 0; i < 25; i++) {
+        using (var context = new AdventureWorksModel()) {
           _sw.Reset();
           _sw.Start();
           var designers = context.Customers.Include(d => d.SalesOrderHeaders).ToList();
           _sw.Stop();
           times.Add(_sw.ElapsedMilliseconds);
+          _trackedObjects = context.ChangeTracker.Entries().Count();
         }
-        _trackedObjects = context.ChangeTracker.Entries().Count();
+       
 
       }
       var analyzer = new TimeAnalyzer(times);
 
       Output(times, analyzer, "EF: GetAllCustomersWithOrdersTracking");
-      Console.WriteLine($"Tracked Objects:{_trackedObjects}");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
 
       Assert.IsTrue(true);
     }
