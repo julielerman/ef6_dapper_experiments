@@ -1,4 +1,5 @@
 ﻿using Dapper.Domain;
+using System.Data.Common;
 using System.Data.Entity;
 
 namespace DapperDesigners.Data.EF6
@@ -7,6 +8,11 @@ namespace DapperDesigners.Data.EF6
   {
     public DapperDesignerContext() : base("DapperDesigns") {
     }
+    public DapperDesignerContext(DbConnection existingConnection,
+      bool contextOwnsConnection) {
+          
+    }
+
 
     public DbSet<DapperDesigner> Designers { get; set; }
     public DbSet<Client> Clients { get; set; }

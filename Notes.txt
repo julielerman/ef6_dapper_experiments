@@ -9,3 +9,5 @@ EF/ORM can at least alleviate the "select *" and "what's a paraemterized query" 
 coding ease?
 performance
 
+Sam S orginally noted "reuse connection" as a reason for dapper over EF but EF6 allows that now.
+

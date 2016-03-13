@@ -5,6 +5,10 @@ namespace Dapper.Domain
 {
   public class DapperDesigner
     {
+    public DapperDesigner() {
+      Products = new List<Product>();
+      Clients = new List<Client>();
+    }
     public int Id { get; set; }
     public string LabelName { get; set; }
     public string Founder { get; set; }
