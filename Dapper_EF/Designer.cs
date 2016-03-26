@@ -19,5 +19,11 @@ namespace Dapper.Domain
 
     public ContactInfo ContactInfo { get; set; }
   }
- 
+
+  public class MiniDesigner {
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public string FoundedBy { get; set; }
+  }
+
 }

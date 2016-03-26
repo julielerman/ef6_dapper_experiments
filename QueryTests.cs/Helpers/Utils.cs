@@ -20,5 +20,10 @@ namespace QueryTests.Helpers
       conn.Open();
       return conn;
     }
+    public static SqlConnection CreateConnection() {
+      string connString = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=DapperDesigns;Integrated Security=True;Connect Timeout=30;";
+      var conn = new SqlConnection(connString);
+      return conn;
+    }
   }
 }

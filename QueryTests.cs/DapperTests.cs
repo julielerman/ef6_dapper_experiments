@@ -15,8 +15,8 @@ namespace QueryTests
     private int _retrievedObjects;
 
     [TestMethod]
-    public void CanGetAllDesigners() {
-      using (var conn = Utils.CreateOpenConnection()) {
+    public void CanGetADesigner() {
+      using (var conn = Utils.CreateConnection()) {
         var designers = conn.Query<DapperDesigner>("select Top 1 * from DapperDesigners");
         Assert.AreEqual(1, designers.Count());
       }
@@ -42,6 +42,26 @@ namespace QueryTests
     }
 
     [TestMethod]
+    public void GetAllProjectedDesigners() {
+      List<long> times = new List<long>();
+      for (int i = 0; i < 25; i++) {
+        using (var conn = Utils.CreateOpenConnection()) {
+          _sw.Reset();
+          _sw.Start();
+          var designers = conn.Query<DapperDesigner>("select  LabelName as Name, id from DapperDesigners");
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+          _retrievedObjects = designers.Count();
+        }
+      }
+      var analyzer = new TimeAnalyzer(times);
+      Utils.Output(times, analyzer, "Dapper: GetAllProjectedDesigners");
+      Console.WriteLine($"Latest Retrieved Object Count:{_retrievedObjects}");
+
+      Assert.IsTrue(true);
+    }
+
+    [TestMethod]
     public void CanReuseOpenConnection() {
       var connStates = new List<string>();
       using (var conn = Utils.CreateOpenConnection()) {
@@ -56,7 +76,7 @@ namespace QueryTests
     [TestMethod]
     public void GetAllDesignersWithProducts() {
       var sql = @"select * from DapperDesigners D 
-                JOIN Products P
+                LEFT OUTER JOIN Products P
                 ON P.DapperDesignerId = D.Id";
       List<long> times = new List<long>();
       IEnumerable<DapperDesigner> designers=new List<DapperDesigner>();
@@ -73,10 +93,37 @@ namespace QueryTests
         }
       }
       var analyzer = new TimeAnalyzer(times);
-      Utils.Output(times, analyzer, "Dapper: GetAllDesignersRawSql");
+      Utils.Output(times, analyzer, "Dapper: GetAllDesignersWithProducts");
       Console.WriteLine($"Latest Retrieved Object Count:{_retrievedObjects}");
-      Assert.AreNotEqual(0,designers.Select(d => d.Products).Count());
+      Assert.AreNotEqual(0,designers.Count());
     }
+
+    [TestMethod]
+    public void GetAllDesignersWithContactInfo() {
+      var sql = @"select * from DapperDesigners D 
+                LEFT OUTER JOIN ContactInfoes C
+                ON C.Id = D.Id";
+      List<long> times = new List<long>();
+      IEnumerable<DapperDesigner> designers = new List<DapperDesigner>();
+      for (int i = 0; i < 25; i++) {
+        using (var conn = Utils.CreateOpenConnection()) {
+          _sw.Reset();
+          _sw.Start();
+          designers = conn.Query<DapperDesigner, ContactInfo, DapperDesigner>(sql,
+     (designer, contact) => { designer.ContactInfo= contact; return designer; });
+
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+          _retrievedObjects = designers.Count();
+        }
+      }
+      var analyzer = new TimeAnalyzer(times);
+      Utils.Output(times, analyzer, "Dapper: GetAllDesignersWithContactInfo");
+      Console.WriteLine($"Latest Retrieved Object Count:{_retrievedObjects}");
+      Console.WriteLine($"Proof of Contact: {designers.FirstOrDefault().ContactInfo.Twitter}");
+      Assert.IsNotNull(designers.FirstOrDefault().ContactInfo);
+    }
+
     [TestMethod]
     public void GetAllDesignersWithClients() {
       var sql = @"SELECT D.Id, d.LabelName,C.Id, C.Name
@@ -103,6 +150,17 @@ namespace QueryTests
       Utils.Output(times, analyzer, "Dapper: GetAllDesignersWithClients");
       Console.WriteLine($"Latest Retrieved Object Count:{_retrievedObjects}");
       Assert.AreNotEqual(0, designers.Select(d => d.Clients).Count());
+    }
+
+    [TestMethod]
+    public void CanGetAProjectedDesigner()
+      {
+      using (var conn = Utils.CreateOpenConnection()) {
+        var designers= conn.Query<DapperDesigner>("select top 1 * from DapperDesigners");
+        var miniDesigners = conn.Query<MiniDesigner>("select top 1 LabelName as Name,id from DapperDesigners");
+        Assert.AreEqual(designers.First().LabelName,miniDesigners.First().Name);
+      }
+
     }
 
     [TestMethod]

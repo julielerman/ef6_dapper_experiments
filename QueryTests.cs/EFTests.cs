@@ -25,29 +25,8 @@ namespace QueryTests.cs
       }
     }
 
-    [TestMethod,TestCategory("EF"),TestCategory("EF,NoTrack")]
-    public void GetAllDesignersAsNoTracking() {
-      List<long> times = new List<long>();
-
-      for (int i = 0; i < 25; i++) {
-        using (var context = new DapperDesignerContext()) {
-          _sw.Reset();
-          _sw.Start();
-          var designers = context.Designers.AsNoTracking().ToList();
-          _sw.Stop();
-          times.Add(_sw.ElapsedMilliseconds);
-          _trackedObjects = context.ChangeTracker.Entries().Count();
-        }
-      }
-      var analyzer = new TimeAnalyzer(times);
-      Utils.Output(times, analyzer, "EF: GetAllDesigners");
-      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
-
-      Assert.IsTrue(true);
-    }
-
     [TestMethod, TestCategory("EF"), TestCategory("EF,Track")]
-    public void GetAllDesignersTracking() {
+    public void GetAllDesigners_Tracking() {
       List<long> times = new List<long>();
 
       for (int i = 0; i < 25; i++) {
@@ -67,110 +46,29 @@ namespace QueryTests.cs
       Assert.IsTrue(true);
     }
 
-    [TestMethod, TestCategory("EF"), TestCategory("EF,NoTrack")]
-    public void GetAllDesignersWithContactAsNoTracking() {
+    [TestMethod,TestCategory("EF"),TestCategory("EF,NoTrack")]
+    public void GetAllDesigners_AsNoTracking() {
       List<long> times = new List<long>();
 
       for (int i = 0; i < 25; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
-          var designers = context.Designers.Include(d => d.ContactInfo).AsNoTracking().ToList();
+          var designers = context.Designers.AsNoTracking().ToList();
           _sw.Stop();
           times.Add(_sw.ElapsedMilliseconds);
           _trackedObjects = context.ChangeTracker.Entries().Count();
         }
       }
       var analyzer = new TimeAnalyzer(times);
-      Utils.Output(times, analyzer, "EF: GetAllDesignersWithContactAsNoTracking");
-      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
-      Assert.IsTrue(true);
-    }
-
-    [TestMethod, TestCategory("EF"), TestCategory("EF,Track")]
-    public void GetAllDesignersWithContactTracking() {
-      List<long> times = new List<long>();
-      for (int i = 0; i < 25; i++) {
-        using (var context = new DapperDesignerContext()) {
-          _sw.Reset();
-          _sw.Start();
-          var designers = context.Designers.Include(d => d.ContactInfo).ToList();
-          _sw.Stop();
-          times.Add(_sw.ElapsedMilliseconds);
-          _trackedObjects = context.ChangeTracker.Entries().Count();
-        }
-      }
-      var analyzer = new TimeAnalyzer(times);
-
-      Utils.Output(times, analyzer, "EF: GetAllDesignersWithContactTracking");
-      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
-
-      Assert.IsTrue(true);
-    }
-
-    [TestMethod, TestCategory("EF"), TestCategory("EF,NoTrack")]
-    public void GetAllDesignersWithContactsAndClientsAsNoTracking() {
-      List<long> times = new List<long>();
-
-      for (int i = 0; i < 25; i++) {
-        using (var context = new DapperDesignerContext()) {
-          _sw.Reset();
-          _sw.Start();
-          var designers = context.Designers.Include(d => d.ContactInfo).Include(d => d.Clients).AsNoTracking().ToList();
-          _sw.Stop();
-          times.Add(_sw.ElapsedMilliseconds);
-
-          _trackedObjects = context.ChangeTracker.Entries().Count();
-        }
-      }
-      var analyzer = new TimeAnalyzer(times);
-      Utils.Output(times, analyzer, "EF: GetAllDesignersWithContactsAndClientsAsNoTracking");
-      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
-      Assert.IsTrue(true);
-    }
-
-    [TestMethod, TestCategory("EF"), TestCategory("EF,Track")]
-    public void GetAllDesignersWithContactsAndClientsTracking() {
-      List<long> times = new List<long>();
-      for (int i = 0; i < 25; i++) {
-        using (var context = new DapperDesignerContext()) {
-          _sw.Reset();
-          _sw.Start();
-          var designers = context.Designers.Include(d => d.ContactInfo).Include(d => d.Clients).ToList();
-          _sw.Stop();
-          times.Add(_sw.ElapsedMilliseconds);
-          _trackedObjects = context.ChangeTracker.Entries().Count();
-        }
-      }
-      var analyzer = new TimeAnalyzer(times);
-      Utils.Output(times, analyzer, "EF: GetAllDesignersWithContactsAndClientsTracking");
-      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
-      Assert.IsTrue(true);
-    }
-
-    [TestMethod, TestCategory("EF"), TestCategory("EF,RawSQL,Track")]
-    public void GetAllDesignersViaRawSqlTracked() {
-      List<long> times = new List<long>();
-      var sql = "select * from DapperDesigners";
-      for (int i = 0; i < 25; i++) {
-        using (var context = new DapperDesignerContext()) {
-          _sw.Reset();
-          _sw.Start();
-          var designers = context.Designers.SqlQuery(sql).ToList();
-          _sw.Stop();
-          times.Add(_sw.ElapsedMilliseconds);
-          _trackedObjects = context.ChangeTracker.Entries().Count();
-        }
-      }
-      var analyzer = new TimeAnalyzer(times);
-      Utils.Output(times, analyzer, "EF: GetAllDesignersRawSql");
+      Utils.Output(times, analyzer, "EF: GetAllDesigners");
       Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
 
       Assert.IsTrue(true);
     }
 
     [TestMethod, TestCategory("EF"), TestCategory("EF,RawSQL,NoTrack")]
-    public void GetAllDesignersViaRawSqlNotTracked() {
+    public void GetAllDesigners_ViaRawSqlNotTracked() {
       List<long> times = new List<long>();
       var sql = "select * from DapperDesigners";
 
@@ -191,19 +89,150 @@ namespace QueryTests.cs
       Assert.IsTrue(true);
     }
 
+    [TestMethod, TestCategory("EF"), TestCategory("EF,RawSQL,Track")]
+    public void GetAllDesigners_ViaRawSqlTracked() {
+      List<long> times = new List<long>();
+      var sql = "select * from DapperDesigners";
+      for (int i = 0; i < 25; i++) {
+        using (var context = new DapperDesignerContext()) {
+          _sw.Reset();
+          _sw.Start();
+          var designers = context.Designers.SqlQuery(sql).ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+          _trackedObjects = context.ChangeTracker.Entries().Count();
+        }
+      }
+      var analyzer = new TimeAnalyzer(times);
+      Utils.Output(times, analyzer, "EF: GetAllDesignersRawSql");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
+
+      Assert.IsTrue(true);
+    }
+
+    [TestMethod, TestCategory("EF"), TestCategory("EF,NoTrack")]
+    public void GetAllDesignersWithProducts_AsNoTracking() {
+      List<long> times = new List<long>();
+
+      for (int i = 0; i < 25; i++) {
+        using (var context = new DapperDesignerContext()) {
+          _sw.Reset();
+          _sw.Start();
+          var designers = context.Designers.Include(d => d.Products).AsNoTracking().ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+          _trackedObjects = context.ChangeTracker.Entries().Count();
+        }
+      }
+      var analyzer = new TimeAnalyzer(times);
+      Utils.Output(times, analyzer, "EF: GetAllDesignersWithProductsAsNoTracking");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
+      Assert.IsTrue(true);
+    }
+
     [TestMethod, TestCategory("EF"), TestCategory("EF,RawSQL,NoTrack")]
-    public void GetAllDesignersWithClientsViaRawSqlNotTracked() {
+    public void GetAllDesignersWithProducts_ViaRawSqlNotTracked() {
+      List<long> times = new List<long>();
+      var sql = @"select * from DapperDesigners D 
+                LEFT OUTER JOIN Products P
+                ON P.DapperDesignerId = D.Id";
+      var designers = new List<DapperDesigner>();
+      for (int i = 0; i < 25; i++) {
+        using (var context = new DapperDesignerContext()) {
+          _sw.Reset();
+          _sw.Start();
+          designers = context.Designers.SqlQuery(sql).AsNoTracking().ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+          _trackedObjects = context.ChangeTracker.Entries().Count();
+        }
+      }
+      var analyzer = new TimeAnalyzer(times);
+      Utils.Output(times, analyzer, "EF: GetAllDesignersWithProductsViaRawSqlNotTracked");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
+
+      Assert.AreNotEqual(0, designers.Select(d => d.Products).Count());
+    }
+
+    [TestMethod, TestCategory("EF"), TestCategory("EF,Track")]
+    public void GetAllDesignersWithContact_Tracking() {
+      List<long> times = new List<long>();
+      for (int i = 0; i < 25; i++) {
+        using (var context = new DapperDesignerContext()) {
+          _sw.Reset();
+          _sw.Start();
+          var designers = context.Designers.Include(d => d.ContactInfo).ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+          _trackedObjects = context.ChangeTracker.Entries().Count();
+        }
+      }
+      var analyzer = new TimeAnalyzer(times);
+
+      Utils.Output(times, analyzer, "EF: GetAllDesignersWithContactTracking");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
+
+      Assert.IsTrue(true);
+    }
+
+    [TestMethod, TestCategory("EF"), TestCategory("EF,NoTrack")]
+    public void GetAllDesignersWithContact_AsNoTracking() {
+      List<long> times = new List<long>();
+
+      for (int i = 0; i < 25; i++) {
+        using (var context = new DapperDesignerContext()) {
+          _sw.Reset();
+          _sw.Start();
+          var designers = context.Designers.Include(d => d.ContactInfo).AsNoTracking().ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+          _trackedObjects = context.ChangeTracker.Entries().Count();
+        }
+      }
+      var analyzer = new TimeAnalyzer(times);
+      Utils.Output(times, analyzer, "EF: GetAllDesignersWithContactAsNoTracking");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
+      Assert.IsTrue(true);
+    }
+
+    [TestMethod, TestCategory("EF"), TestCategory("EF,RawSQL,NoTrack")]
+    public void GetAllDesignersWithContact_ViaRawSqlNotTracked() {
+      List<long> times = new List<long>();
+      var sql = @"select * from DapperDesigners D 
+                LEFT OUTER JOIN ContactInfoes C
+                ON C.Id = D.Id";
+      var designers = new List<DapperDesigner>();
+      for (int i = 0; i < 25; i++) {
+        using (var context = new DapperDesignerContext()) {
+          _sw.Reset();
+          _sw.Start();
+          designers = context.Designers.SqlQuery(sql).AsNoTracking().ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+          _trackedObjects = context.ChangeTracker.Entries().Count();
+        }
+      }
+      var analyzer = new TimeAnalyzer(times);
+      Utils.Output(times, analyzer, "EF: GetAllDesignersWithContact_ViaRawSqlNotTracked");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
+
+      Assert.AreNotEqual(0, designers.Select(d => d.Clients).Count());
+    }
+
+
+    [TestMethod, TestCategory("EF"), TestCategory("EF,RawSQL,NoTrack")]
+    public void GetAllDesignersWithClients_ViaRawSqlNotTracked() {
       List<long> times = new List<long>();
       var sql = @"SELECT D.*,C.*
                   FROM DapperDesigners D  
                   LEFT OUTER JOIN DapperDesignerClients dc on (D.Id = dc.DapperDesigner_Id)
                   LEFT OUTER JOIN Clients C on (dc.Client_Id = C.Id);";
-      var designers=new List<DapperDesigner>();
+      var designers = new List<DapperDesigner>();
       for (int i = 0; i < 25; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
-           designers = context.Designers.SqlQuery(sql).AsNoTracking().ToList();
+          designers = context.Designers.SqlQuery(sql).AsNoTracking().ToList();
           _sw.Stop();
           times.Add(_sw.ElapsedMilliseconds);
           _trackedObjects = context.ChangeTracker.Entries().Count();
@@ -214,6 +243,105 @@ namespace QueryTests.cs
       Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
 
       Assert.AreNotEqual(0, designers.Select(d => d.Clients).Count());
+    }
+
+
+    [TestMethod, TestCategory("EF"), TestCategory("EF,NoTrack")]
+    public void GetAllDesignersWithClients_AsNoTracking() {
+      List<long> times = new List<long>();
+
+      for (int i = 0; i < 25; i++) {
+        using (var context = new DapperDesignerContext()) {
+          _sw.Reset();
+          _sw.Start();
+          var designers = context.Designers.Include(d => d.Clients).AsNoTracking().ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+          _trackedObjects = context.ChangeTracker.Entries().Count();
+        }
+      }
+      var analyzer = new TimeAnalyzer(times);
+      Utils.Output(times, analyzer, "EF: GetAllDesignersWithClientsAsNoTracking");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
+      Assert.IsTrue(true);
+    }
+
+
+
+    [TestMethod, TestCategory("EF"), TestCategory("EF,Track")]
+    public void GetAllDesignersWithContactsAndClients_Tracking() {
+      List<long> times = new List<long>();
+      for (int i = 0; i < 25; i++) {
+        using (var context = new DapperDesignerContext()) {
+          _sw.Reset();
+          _sw.Start();
+          var designers = context.Designers.Include(d => d.ContactInfo).Include(d => d.Clients).ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+          _trackedObjects = context.ChangeTracker.Entries().Count();
+        }
+      }
+      var analyzer = new TimeAnalyzer(times);
+      Utils.Output(times, analyzer, "EF: GetAllDesignersWithContactsAndClientsTracking");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
+      Assert.IsTrue(true);
+    }
+
+
+    [TestMethod, TestCategory("EF"), TestCategory("EF,NoTrack")]
+    public void GetAllDesignersWithContactsAndClients_AsNoTracking() {
+      List<long> times = new List<long>();
+
+      for (int i = 0; i < 25; i++) {
+        using (var context = new DapperDesignerContext()) {
+          _sw.Reset();
+          _sw.Start();
+          var designers = context.Designers.Include(d => d.ContactInfo).Include(d => d.Clients).AsNoTracking().ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+
+          _trackedObjects = context.ChangeTracker.Entries().Count();
+        }
+      }
+      var analyzer = new TimeAnalyzer(times);
+      Utils.Output(times, analyzer, "EF: GetAllDesignersWithContactsAndClientsAsNoTracking");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
+      Assert.IsTrue(true);
+    }
+
+    [TestMethod, TestCategory("EF"), TestCategory("EF,NoTrack")]
+    public void GetProjectedDesigners() {
+      using (var context = new DapperDesignerContext()) {
+        var miniDesigner =
+          context.Designers.AsNoTracking()
+          .Select(d => new MiniDesigner {
+            Id = d.Id, Name = d.LabelName, FoundedBy = d.Founder
+            }).FirstOrDefault();
+         Assert.AreNotEqual(" ", miniDesigner.Name);
+      }
+
+
+    }
+    [TestMethod, TestCategory("EF"), TestCategory("EF,RawSQL,NoTrack")]
+    public void GetProjectedDesigners_ViaRawSqlNotTracked() {
+      List<long> times = new List<long>();
+      var sql = "select LabelName as Name,id from DapperDesigners";
+      var designers = new List<MiniDesigner>();
+      for (int i = 0; i < 25; i++) {
+        using (var context = new DapperDesignerContext()) {
+          _sw.Reset();
+          _sw.Start();
+          designers = context.Database.SqlQuery<MiniDesigner>(sql).ToList();
+          _sw.Stop();
+          times.Add(_sw.ElapsedMilliseconds);
+          _trackedObjects = context.ChangeTracker.Entries().Count();
+        }
+      }
+      var analyzer = new TimeAnalyzer(times);
+      Utils.Output(times, analyzer, "EF: GetProjectedDesigners_ViaRawSqlNotTracked");
+      Console.WriteLine($"Latest Tracked Objects:{_trackedObjects}");
+
+      Assert.AreNotEqual(0, designers.Count());
     }
 
 
