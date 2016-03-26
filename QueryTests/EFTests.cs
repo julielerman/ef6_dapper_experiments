@@ -1,4 +1,4 @@
-﻿using Dapper.Domain;
+﻿using DapperDesigners.Domain;
 using DapperDesigners.Data.EF6;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QueryTests.Helpers;

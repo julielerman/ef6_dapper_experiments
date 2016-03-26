@@ -1,6 +1,6 @@
 namespace DapperDesigners.Data.EF6.Migrations
 {
-  using Dapper.Domain;
+  using DapperDesigners.Domain;
   using System.Collections.Generic;
   using System.Data.Entity.Migrations;
   using System.Linq;

@@ -7,8 +7,8 @@
     <ProjectGuid>{BB0A3FCF-A7FA-4372-B951-614F36E49236}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Dapper.Domain</RootNamespace>
-    <AssemblyName>Dapper.Domain</AssemblyName>
+    <RootNamespace>DapperDesigners.Domain</RootNamespace>
+    <AssemblyName>DapperDesigners.Domain</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

@@ -1,5 +1,5 @@
 ﻿using Dapper;
-using Dapper.Domain;
+using DapperDesigners.Domain;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using QueryTests.Helpers;
 using System;
@@ -13,15 +13,16 @@ namespace QueryTests
   {
     private System.Diagnostics.Stopwatch _sw = new System.Diagnostics.Stopwatch();
     private int _retrievedObjects;
-    private readonly int _iterations = 25;
+    private readonly int _iterations = 25; //Dapper will be even more impressive if you start at, say, 500! :)
 
 
 
     [TestMethod]
     public void CanGetADesigner() {
       using (var conn = Utils.CreateConnection()) {
-        var designers = conn.Query<DapperDesigner>("select Top 1 * from DapperDesigners where Id=1");
-        Assert.AreEqual(1, designers.Count());
+        var designer = conn.QueryFirstOrDefault<DapperDesigner>
+          ("select * from DapperDesigners where Id=1");
+        Assert.AreEqual(1, designer.Id);
       }
     }
     [TestMethod]

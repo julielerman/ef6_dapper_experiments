@@ -1,4 +1,4 @@
-﻿using Dapper.Domain;
+﻿using DapperDesigners.Domain;
 using System.Data.Common;
 using System.Data.Entity;
 

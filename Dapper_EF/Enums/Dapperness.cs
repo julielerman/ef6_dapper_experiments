@@ -1,4 +1,4 @@
-﻿namespace Dapper.Domain
+﻿namespace DapperDesigners.Domain
 {
   public enum Dapperness
   {
