@@ -13,18 +13,21 @@ namespace QueryTests
   {
     private System.Diagnostics.Stopwatch _sw = new System.Diagnostics.Stopwatch();
     private int _retrievedObjects;
+    private readonly int _iterations = 25;
+
+
 
     [TestMethod]
     public void CanGetADesigner() {
       using (var conn = Utils.CreateConnection()) {
-        var designers = conn.Query<DapperDesigner>("select Top 1 * from DapperDesigners");
+        var designers = conn.Query<DapperDesigner>("select Top 1 * from DapperDesigners where Id=1");
         Assert.AreEqual(1, designers.Count());
       }
     }
     [TestMethod]
     public void GetAllDesigners() {
       List<long> times = new List<long>();
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var conn = Utils.CreateOpenConnection()) {
           _sw.Reset();
           _sw.Start();
@@ -44,7 +47,7 @@ namespace QueryTests
     [TestMethod]
     public void GetAllProjectedDesigners() {
       List<long> times = new List<long>();
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var conn = Utils.CreateOpenConnection()) {
           _sw.Reset();
           _sw.Start();
@@ -80,7 +83,7 @@ namespace QueryTests
                 ON P.DapperDesignerId = D.Id";
       List<long> times = new List<long>();
       IEnumerable<DapperDesigner> designers=new List<DapperDesigner>();
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var conn = Utils.CreateOpenConnection()) {
           _sw.Reset();
           _sw.Start();
@@ -105,7 +108,7 @@ namespace QueryTests
                 ON C.Id = D.Id";
       List<long> times = new List<long>();
       IEnumerable<DapperDesigner> designers = new List<DapperDesigner>();
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var conn = Utils.CreateOpenConnection()) {
           _sw.Reset();
           _sw.Start();
@@ -132,7 +135,7 @@ namespace QueryTests
                   LEFT OUTER JOIN Clients C on (dc.Client_Id = C.Id);";
       List<long> times = new List<long>();
       IEnumerable<DapperDesigner> designers = new List<DapperDesigner>();
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var conn = Utils.CreateOpenConnection()) {
           _sw.Reset();
           _sw.Start();

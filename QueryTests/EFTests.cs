@@ -16,6 +16,8 @@ namespace QueryTests.cs
   {
     private System.Diagnostics.Stopwatch _sw = new System.Diagnostics.Stopwatch();
     private int _trackedObjects;
+    private readonly int _iterations = 25;
+
 
     public EFTests() {
       //warm up EF
@@ -29,7 +31,7 @@ namespace QueryTests.cs
     public void GetAllDesigners_Tracking() {
       List<long> times = new List<long>();
 
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
@@ -50,7 +52,7 @@ namespace QueryTests.cs
     public void GetAllDesigners_AsNoTracking() {
       List<long> times = new List<long>();
 
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
@@ -72,7 +74,7 @@ namespace QueryTests.cs
       List<long> times = new List<long>();
       var sql = "select * from DapperDesigners";
 
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
@@ -93,7 +95,7 @@ namespace QueryTests.cs
     public void GetAllDesigners_ViaRawSqlTracked() {
       List<long> times = new List<long>();
       var sql = "select * from DapperDesigners";
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
@@ -114,7 +116,7 @@ namespace QueryTests.cs
     public void GetAllDesignersWithProducts_AsNoTracking() {
       List<long> times = new List<long>();
 
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
@@ -137,7 +139,7 @@ namespace QueryTests.cs
                 LEFT OUTER JOIN Products P
                 ON P.DapperDesignerId = D.Id";
       var designers = new List<DapperDesigner>();
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
@@ -157,7 +159,7 @@ namespace QueryTests.cs
     [TestMethod, TestCategory("EF"), TestCategory("EF,Track")]
     public void GetAllDesignersWithContact_Tracking() {
       List<long> times = new List<long>();
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
@@ -179,7 +181,7 @@ namespace QueryTests.cs
     public void GetAllDesignersWithContact_AsNoTracking() {
       List<long> times = new List<long>();
 
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
@@ -202,7 +204,7 @@ namespace QueryTests.cs
                 LEFT OUTER JOIN ContactInfoes C
                 ON C.Id = D.Id";
       var designers = new List<DapperDesigner>();
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
@@ -228,7 +230,7 @@ namespace QueryTests.cs
                   LEFT OUTER JOIN DapperDesignerClients dc on (D.Id = dc.DapperDesigner_Id)
                   LEFT OUTER JOIN Clients C on (dc.Client_Id = C.Id);";
       var designers = new List<DapperDesigner>();
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
@@ -250,7 +252,7 @@ namespace QueryTests.cs
     public void GetAllDesignersWithClients_AsNoTracking() {
       List<long> times = new List<long>();
 
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
@@ -271,7 +273,7 @@ namespace QueryTests.cs
     [TestMethod, TestCategory("EF"), TestCategory("EF,Track")]
     public void GetAllDesignersWithContactsAndClients_Tracking() {
       List<long> times = new List<long>();
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
@@ -292,7 +294,7 @@ namespace QueryTests.cs
     public void GetAllDesignersWithContactsAndClients_AsNoTracking() {
       List<long> times = new List<long>();
 
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
@@ -327,7 +329,7 @@ namespace QueryTests.cs
       List<long> times = new List<long>();
       var sql = "select LabelName as Name,id from DapperDesigners";
       var designers = new List<MiniDesigner>();
-      for (int i = 0; i < 25; i++) {
+      for (int i = 0; i < _iterations; i++) {
         using (var context = new DapperDesignerContext()) {
           _sw.Reset();
           _sw.Start();
